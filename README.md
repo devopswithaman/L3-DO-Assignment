@@ -119,9 +119,9 @@ Now it's time for CD. Let's proceed with the EKS and ArgoCD setup.
 Step 12: Setup EKS and ArgoCD, Application Load Balancer controller.
         Execute the following command on the Jenkins server.
 
-            eksctl create cluster --name 3-tier-cluster --region us-east-1 --node-type t2.medium --nodes-min 2 --nodes-max 2
+            eksctl create cluster --name demo-cluster --region us-east-1 --node-type t2.medium --nodes-min 2 --nodes-max 2
 
-            aws eks update-kubeconfig --region us-east-1 --name 3-tier-cluster
+            aws eks update-kubeconfig --region us-east-1 --name demo-cluster
 
             k get nodes
                 
@@ -131,8 +131,8 @@ Step 13: Next, install Application LoadBalancer controller. on the cluster:
         curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
         aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
 
-        eksctl utils associate-iam-oidc-provider --region=us-west-2 --cluster=three-tier-cluster --approve
-        eksctl create iamserviceaccount --cluster=3-tier-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::<Your AWS Account NO>:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=us-east-1
+        eksctl utils associate-iam-oidc-provider --region=us-west-2 --cluster=demo-cluster --approve
+        eksctl create iamserviceaccount --cluster=demo-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::<Your AWS Account NO>:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=us-east-1
 
 Step 14: sudo snap install helm --classic
         helm repo add eks https://aws.github.io/eks-charts
