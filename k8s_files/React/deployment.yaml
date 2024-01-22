@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react
+  namespace: Demo-App
+  labels:
+    role: react
+    env: demo
+spec: 
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels: 
+      role: react
+  template:
+    metadata:
+      labels:
+        role: react
+    spec: 
+      containers:
+      - name: react
+        image: 912924888816.dkr.ecr.us-east-2.amazonaws.com/rect-registry:v1 # Change with your account id and ECR id and tags.
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

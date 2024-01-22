@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mainlb
+  namespace: Demo-App
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80},{"HTTPS": 443}]'
+    # Change certificate-arn with your account id and ECR id and tags.
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-2:912924888816:certificate/da10155c-b962-49ad-8dac-d1365d6faea4" 
+spec:
+  ingressClassName: alb
+  rules:
+    - host: example.com
+      http:
+        paths:
+          - path: /dashboard
+            pathType: Prefix
+            backend:
+              service:
+                name: angular
+                port:   
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: react
+                port: 
+                  number: 80
+                
+      

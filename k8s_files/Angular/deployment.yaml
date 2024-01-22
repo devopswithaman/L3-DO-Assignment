@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: angular
+  namespace: Demo-App
+  labels: 
+    role: angular
+    env: demo
+spec: 
+  replicas: 2
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector: 
+    matchLabels:
+      role: angular
+  template:
+    metadata:
+      labels:
+        role: angular
+    spec:
+      containers:
+      - name: angular
+        image: 912924888816.dkr.ecr.us-east-2.amazonaws.com/angular-registry:v1 # Change with your account id and ECR id and tags.
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
